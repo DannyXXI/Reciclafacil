@@ -4,17 +4,20 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -32,12 +35,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.room.Room
+import com.juandeherrera.reciclafacil.R
 import com.juandeherrera.reciclafacil.localdb.AppDB
 import com.juandeherrera.reciclafacil.localdb.Estructura
+import com.juandeherrera.reciclafacil.metodosAuxiliares.TendenciaCard
+import com.juandeherrera.reciclafacil.metodosAuxiliares.VideoCard
 import com.juandeherrera.reciclafacil.navigation.AppScreens
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,8 +57,6 @@ fun PantallaInicio(controladorNavegacion: NavController) {
     // se indica el contexto, nombre del archivo, permitiendo operaciones en el hilo principal
     // con allowMainThreadQueries() se hace que el manejo de la base de datos y la app corran en el mismo hilo (no es lo mas recomendable)
     val db = Room.databaseBuilder(context, AppDB::class.java, Estructura.DB.NAME).allowMainThreadQueries().build()
-
-    val usuario = db.sesionDao().obtenerUsuario()  // se obtiene los datos del usuario que tiene sesion activa
 
     Scaffold(
         // BARRA SUPERIOR
@@ -229,21 +234,41 @@ fun PantallaInicio(controladorNavegacion: NavController) {
         innerPadding ->
 
         Column(
-            modifier = Modifier.fillMaxSize()                 // ocupa el espacio disponible
-                .padding(innerPadding) // usa el padding por defecto
-                .background(Color.White),             // color de fondo
-            horizontalAlignment = Alignment.CenterHorizontally,   // centrado horizontal
-            verticalArrangement = Arrangement.Center              // centrado vertical
+            modifier = Modifier.fillMaxSize()      // ocupa el espacio disponible
+                .padding(innerPadding)     // usa el padding por defecto
+                .background(Color(0xFFE0F8D9))     // color de fondo
+                .verticalScroll(rememberScrollState()), // scroll vertical
+            horizontalAlignment = Alignment.CenterHorizontally,       // centrado horizontal
+            verticalArrangement = Arrangement.spacedBy(16.dp) // separacion entre elementos verticalmente
         ){
+            VideoCard("videoreciclaje")
 
+            // titulo para la parte de tendencias
+            Text(
+                text = "Tendencias",  // texto
+                color = Color(0xFF2E7D32),  // color del texto
+                style = TextStyle(
+                    fontFamily = FontFamily.SansSerif,  // fuente tipografica
+                    textAlign = TextAlign.Left, // texto alineado en el centro
+                    fontSize = 20.sp,           // tamaño de fuente del texto
+                    fontWeight = FontWeight.Bold, // texto en negrita
+                ),
+                modifier = Modifier.fillMaxWidth() // ocupa el ancho posible
+                    .padding(horizontal = 16.dp)   // padding interno
+            )
 
-            Text("Esto es el inicio")
+            Row(
+                modifier = Modifier.fillMaxWidth() // ocupa el ancho disponible
+                    .padding(16.dp),          // padding interno
+                horizontalArrangement = Arrangement.SpaceBetween, // separacion entre elementos a la misma distancia horizontalmente
+                verticalAlignment = Alignment.CenterVertically    // centrado vertical
+            ){
+                TendenciaCard(controladorNavegacion, R.drawable.botellasplastico, "Plástico", db.productoDao().getProducto(2))
 
+                TendenciaCard(controladorNavegacion, R.drawable.pilas, "Pilas", db.productoDao().getProducto(1))
 
-
-
-
-
+                TendenciaCard(controladorNavegacion, R.drawable.papelcarton, "Papel", db.productoDao().getProducto(3))
+            }
         }
     }
 }
