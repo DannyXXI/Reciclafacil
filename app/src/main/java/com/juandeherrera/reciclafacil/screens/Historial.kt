@@ -1,20 +1,29 @@
 package com.juandeherrera.reciclafacil.screens
 
 import android.widget.Toast
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -22,9 +31,14 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,6 +52,8 @@ import androidx.navigation.NavController
 import androidx.room.Room
 import com.juandeherrera.reciclafacil.localdb.AppDB
 import com.juandeherrera.reciclafacil.localdb.Estructura
+import com.juandeherrera.reciclafacil.metodosAuxiliares.tarjetaProductoHistorial
+import com.juandeherrera.reciclafacil.metodosAuxiliares.tarjetaSinProductos
 import com.juandeherrera.reciclafacil.navigation.AppScreens
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,6 +68,8 @@ fun PantallaHistorial(controladorNavegacion: NavController) {
     val db = Room.databaseBuilder(context, AppDB::class.java, Estructura.DB.NAME).allowMainThreadQueries().build()
 
     val usuario = db.sesionDao().obtenerUsuario()  // se obtiene los datos del usuario que tiene sesion activa
+
+    val datos = remember {db.historialDao().obtenerHistorial(usuario.idUsuario).toMutableStateList()} // lista de registros del historial
 
     Scaffold(
         // BARRA SUPERIOR
@@ -226,25 +244,84 @@ fun PantallaHistorial(controladorNavegacion: NavController) {
             }
         }
     ){
-            innerPadding ->
+        innerPadding ->
 
         Column(
             modifier = Modifier.fillMaxSize()                 // ocupa el espacio disponible
-                .padding(innerPadding) // usa el padding por defecto
-                .background(Color.White),             // color de fondo
+                .padding(innerPadding)         // usa el padding por defecto
+                .background(Color(0xFFE0F8D9)),       // color de fondo
             horizontalAlignment = Alignment.CenterHorizontally,   // centrado horizontal
-            verticalArrangement = Arrangement.Center              // centrado vertical
         ){
+            // FILAS CON LOS PRODUCTOS RECICLADOS POR EL USUARIO
+            LazyColumn(){
+                // se comprueba que haya productos en el historial
+                if (datos.isEmpty()) {
+                    // lista de un solo item a mostrar
+                    item {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),              // ocupa el ancho de la pantalla
+                            verticalAlignment = Alignment.CenterVertically,  // centrado vertical
+                            horizontalArrangement = Arrangement.Center       // centrado horizontal
+                        ){
+                            tarjetaSinProductos()
+                        }
+                    }
+                }
+                else {
+                    // lista indexada que contiene los productos del historial
+                    items(
+                        items = datos,
+                        key = { it.idHistorial }
+                    ) { registro ->
 
 
-            Text("Esto es el historial")
 
+                        val estadoBorrado = rememberSwipeToDismissBoxState(
+                            confirmValueChange = { valor ->
 
+                                if (valor == SwipeToDismissBoxValue.StartToEnd) {
 
+                                    db.historialDao().eliminarRegistro(registro.idHistorial)  // eliminar registro de la base de datos
 
+                                    datos.remove(registro) // se elimina el producto de la lista
 
+                                    true
+                                }
+                                else {
+                                    false
+                                }
+                            }
+                        )
 
+                        SwipeToDismissBox(
+                            state = estadoBorrado,
+                            enableDismissFromStartToEnd = true,
+                            enableDismissFromEndToStart = false,
+                            backgroundContent = {
+                                val color = animateColorAsState(
+                                    targetValue = if (estadoBorrado.targetValue == SwipeToDismissBoxValue.StartToEnd) Color.Red else Color.Transparent,
+                                    animationSpec = tween (300)
+                                )
 
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(color.value, shape = CardDefaults.shape)
+                                        .padding(horizontal = 16.dp),
+                                    contentAlignment = Alignment.CenterStart
+                                ) {
+                                    Icon(Icons.Default.Delete, "Borrar", tint = Color.White)
+                                }
+                            }
+                        ){
+
+                            val producto = db.productoDao().getProducto(registro.idProductoVisitado)
+
+                            tarjetaProductoHistorial(producto)
+                        }
+                    }
+                }
+            }
         }
     }
 }

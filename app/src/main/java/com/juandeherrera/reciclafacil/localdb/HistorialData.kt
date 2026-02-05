@@ -28,7 +28,7 @@ data class HistorialData (
     // clave primaria autogenerada incremental cuyo valor inicial es 0
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = Estructura.Historial.ID)
-    val idSesion: Int = 0,
+    val idHistorial: Int = 0,
 
     // columna del id del usuario
     @ColumnInfo(name = Estructura.Historial.ID_USUARIO)

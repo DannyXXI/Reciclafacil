@@ -7,6 +7,10 @@ import androidx.room.Query
 // OPERACIONES QUE SE REALIZARAN EN LA TABLA USUARIO
 @Dao
 interface HistorialDAO {
+    // OBTENER EL HISTORIAL DE UN USUARIO
+    @Query("SELECT * FROM ${Estructura.Historial.TABLE_NAME} WHERE ${Estructura.Historial.ID_USUARIO} = :idUsuario")
+    fun obtenerHistorial(idUsuario: Int): List<HistorialData>
+
     // OBTENER LOS PRODUCTOS DEL HISTORIAL
     // se usan parametros (:idUsuarioSesion) para evitar inyeccion SQL y que el parametro sea gestionado a través de la funcion
     // se usa ? para comprobar si el resultado es null antes de usarlo
@@ -15,7 +19,11 @@ interface HistorialDAO {
             "WHERE h.${Estructura.Historial.ID_USUARIO} = :idUsuarioSesion")
     fun obtenerHistorialUsuario(idUsuarioSesion: Int): List<ProductoData>
 
-    // AGREGAR UN NUEVO USUARIO
+    // AGREGAR UN NUEVO PRODUCTO AL HISTORIAL
     @Insert
     fun nuevoRegistro (historialData: HistorialData)
+
+    // ELIMINAR UN PRODUCTO DEL HISTORIAL
+    @Query("DELETE FROM ${Estructura.Historial.TABLE_NAME} WHERE ${Estructura.Historial.ID} = :idRegistro")
+    fun eliminarRegistro(idRegistro: Int)
 }
