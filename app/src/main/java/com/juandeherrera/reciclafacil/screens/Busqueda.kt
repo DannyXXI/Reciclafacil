@@ -362,7 +362,7 @@ fun ItemProducto(producto: ProductoData, onClick: () -> Unit) {
                 style = TextStyle(
                     fontFamily = FontFamily.SansSerif,  // fuente tipografica
                     textAlign = TextAlign.Center, // texto alineado en el centro
-                    fontSize = 20.sp,  // tamaño de fuente del texto
+                    fontSize = 18.sp,  // tamaño de fuente del texto
                     fontWeight = FontWeight.Bold, // texto en negrita
                 ),
                 modifier = Modifier.weight(1f)  // ocupa el espacio que falta

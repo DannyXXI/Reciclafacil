@@ -1,8 +1,6 @@
 package com.juandeherrera.reciclafacil.screens
 
 import android.widget.Toast
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -253,7 +250,7 @@ fun PantallaHistorial(controladorNavegacion: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,   // centrado horizontal
         ){
             // FILAS CON LOS PRODUCTOS RECICLADOS POR EL USUARIO
-            LazyColumn(){
+            LazyColumn{
                 // se comprueba que haya productos en el historial
                 if (datos.isEmpty()) {
                     // lista de un solo item a mostrar
@@ -263,7 +260,7 @@ fun PantallaHistorial(controladorNavegacion: NavController) {
                             verticalAlignment = Alignment.CenterVertically,  // centrado vertical
                             horizontalArrangement = Arrangement.Center       // centrado horizontal
                         ){
-                            tarjetaSinProductos()
+                            tarjetaSinProductos() // se invoca la tarjeta
                         }
                     }
                 }
@@ -271,54 +268,63 @@ fun PantallaHistorial(controladorNavegacion: NavController) {
                     // lista indexada que contiene los productos del historial
                     items(
                         items = datos,
-                        key = { it.idHistorial }
+                        key = { it.idHistorial } // clave unica para identificar cada item
                     ) { registro ->
 
-
-
-                        val estadoBorrado = rememberSwipeToDismissBoxState(
+                        // define el estado del deplazamiento
+                        val estadoDesplazamiento = rememberSwipeToDismissBoxState(
                             confirmValueChange = { valor ->
-
+                                // si el usuario desliza la tarjeta de izquierda a derecha
                                 if (valor == SwipeToDismissBoxValue.StartToEnd) {
 
                                     db.historialDao().eliminarRegistro(registro.idHistorial)  // eliminar registro de la base de datos
 
                                     datos.remove(registro) // se elimina el producto de la lista
 
-                                    true
+                                    true // se confirma que la accion se realizo
                                 }
                                 else {
-                                    false
+                                    false // si desliza hacia otro lada, no se hace nada
                                 }
                             }
                         )
 
-                        SwipeToDismissBox(
-                            state = estadoBorrado,
-                            enableDismissFromStartToEnd = true,
-                            enableDismissFromEndToStart = false,
-                            backgroundContent = {
-                                val color = animateColorAsState(
-                                    targetValue = if (estadoBorrado.targetValue == SwipeToDismissBoxValue.StartToEnd) Color.Red else Color.Transparent,
-                                    animationSpec = tween (300)
-                                )
+                        // box que hace de marco del elemento al aplicarle el padding y que el fondo rojo quede contenido
+                        Box(
+                            modifier = Modifier.padding(vertical = 10.dp, horizontal = 16.dp) // padding en los laterales horizontales y verticales
+                        ) {
+                            SwipeToDismissBox(
+                                state = estadoDesplazamiento,
+                                enableDismissFromStartToEnd = true,  // se activa el deslizamiento hacia la derecha
+                                enableDismissFromEndToStart = false, // se desactiva el deslizamiento hacia la izquierda
 
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .background(color.value, shape = CardDefaults.shape)
-                                        .padding(horizontal = 16.dp),
-                                    contentAlignment = Alignment.CenterStart
-                                ) {
-                                    Icon(Icons.Default.Delete, "Borrar", tint = Color.White)
+                                // define que hay detras de la tarjeta (el contenido oculto)
+                                backgroundContent = {
+
+                                    // contenedor visual del fondo (la capa roja con el icono)
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxSize()  // ocupa el espacio disponible
+                                            .background(Color.Red, shape = CardDefaults.shape) // color de fondo con borde redondeado
+                                            .padding(horizontal = 16.dp), // padding interno
+                                        contentAlignment = Alignment.CenterStart // centrado al centro a la derecha
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Delete, // icono
+                                            contentDescription = "Borrar",      // descripcion del icono
+                                            tint = Color.White                  // color del icono
+                                        )
+                                    }
                                 }
+                            ){
+                                // contenido frontal (lo que ve el usuario y se mueve)
+
+                                val producto = db.productoDao().getProducto(registro.idProductoVisitado) // obtenemos el producto asociado al contenido del registro
+
+                                tarjetaProductoHistorial(producto) // se invoca la tarjeta
                             }
-                        ){
-
-                            val producto = db.productoDao().getProducto(registro.idProductoVisitado)
-
-                            tarjetaProductoHistorial(producto)
                         }
+
                     }
                 }
             }

@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.MediaController
 import android.widget.VideoView
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
@@ -53,6 +54,7 @@ fun VideoCard(nombreVideo: String) {
                 }
             },
             modifier = Modifier.fillMaxWidth() // el video ocupara el ancho disponible
+                .height(198.dp)  // se establece una altura
         )
     }
 }

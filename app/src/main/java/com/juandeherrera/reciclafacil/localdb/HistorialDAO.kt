@@ -11,14 +11,6 @@ interface HistorialDAO {
     @Query("SELECT * FROM ${Estructura.Historial.TABLE_NAME} WHERE ${Estructura.Historial.ID_USUARIO} = :idUsuario")
     fun obtenerHistorial(idUsuario: Int): List<HistorialData>
 
-    // OBTENER LOS PRODUCTOS DEL HISTORIAL
-    // se usan parametros (:idUsuarioSesion) para evitar inyeccion SQL y que el parametro sea gestionado a través de la funcion
-    // se usa ? para comprobar si el resultado es null antes de usarlo
-    @Query("SELECT p.* FROM ${Estructura.Historial.TABLE_NAME} h " +
-            "INNER JOIN ${Estructura.Producto.TABLE_NAME} p ON h.${Estructura.Historial.ID_PRODUCTO} = p.${Estructura.Producto.ID} " +
-            "WHERE h.${Estructura.Historial.ID_USUARIO} = :idUsuarioSesion")
-    fun obtenerHistorialUsuario(idUsuarioSesion: Int): List<ProductoData>
-
     // AGREGAR UN NUEVO PRODUCTO AL HISTORIAL
     @Insert
     fun nuevoRegistro (historialData: HistorialData)

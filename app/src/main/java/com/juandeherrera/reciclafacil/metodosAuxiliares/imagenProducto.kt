@@ -22,6 +22,18 @@ fun obtenerPainterProducto(tituloProducto: String): Painter {
             id = R.drawable.residuosorganicos
         "Tetrabricks" ->
             id = R.drawable.tetrabricks
+        "Vidrio" ->
+            id = R.drawable.vidrio
+        "Latas" ->
+            id = R.drawable.latas
+        "Electrodomésticos pequeños" ->
+            id = R.drawable.electrodomesticopeque_o
+        "Aceite de cocina usado" ->
+            id = R.drawable.aceiteusado
+        "Ropa y textiles" ->
+            id = R.drawable.ropa
+        "Medicamentos caducados" ->
+            id = R.drawable.medicamentos
     }
 
     return painterResource(id = id)

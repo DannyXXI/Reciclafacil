@@ -21,11 +21,3 @@ abstract class AppDB: RoomDatabase() {
 
     abstract fun historialDao(): HistorialDAO
 }
-
-/*
-
-se puede conectar AppDB con a parte de la forma normal en clase
-
-    val db = DatabaseProvider.getDatabase(context)
-
-*/

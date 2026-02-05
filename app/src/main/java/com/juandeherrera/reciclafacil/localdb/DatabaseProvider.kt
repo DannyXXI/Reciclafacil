@@ -90,7 +90,50 @@ object DatabaseProvider {
                                                 "amarillo, junto con otros envases de plástico, latas y briks, donde se reciclan y se transforman en nuevos productos de plástico " +
                                                 "y cartón, contribuyendo a la reducción de residuos y al cuidado del medio ambiente.",
                                         contenedorProducto = "Contenedor amarillo"
-                                    )
+                                    ),
+                                    ProductoData(
+                                        tituloProducto = "Vidrio",
+                                        descripcionProducto = "El vidrio incluye botellas, frascos y tarros de bebidas o alimentos. Antes de reciclarlos, es importante vaciarlos completamente " +
+                                                "y retirar tapas y tapones, que suelen ser de metal o plástico. No es necesario lavarlos en profundidad, pero sí evitar restos de comida. " +
+                                                "El vidrio se deposita en el contenedor verde, donde se recicla al 100% sin perder calidad, pudiendo transformarse en nuevas botellas y envases, " +
+                                                "lo que reduce el consumo de materias primas y energía.",
+                                        contenedorProducto = "Contenedor verde"
+                                    ),
+                                    ProductoData(
+                                        tituloProducto = "Latas",
+                                        descripcionProducto = "Las latas de bebidas y conservas están fabricadas principalmente de aluminio o acero. Antes de tirarlas, es recomendable " +
+                                                "vaciarlas completamente y, si es posible, aplastarlas para reducir su volumen. Estas latas se depositan en el contenedor amarillo, " +
+                                                "donde se reciclan para fabricar nuevas latas u otros productos metálicos, ahorrando energía y reduciendo la extracción de minerales.",
+                                        contenedorProducto = "Contenedor amarillo"
+                                    ),
+                                    ProductoData(
+                                        tituloProducto = "Electrodomésticos pequeños",
+                                        descripcionProducto = "Los electrodomésticos pequeños incluyen tostadoras, secadores de pelo, planchas, cafeteras o batidoras. Estos aparatos contienen " +
+                                                "componentes electrónicos y materiales que pueden ser contaminantes si se desechan incorrectamente. No deben tirarse a la basura común, " +
+                                                "sino llevarse a un punto limpio o a tiendas especializadas que gestionen su reciclaje, donde se separan y reutilizan sus materiales.",
+                                        contenedorProducto = "Punto limpio"
+                                    ),
+                                    ProductoData(
+                                        tituloProducto = "Aceite de cocina usado",
+                                        descripcionProducto = "El aceite de cocina usado, tanto de origen vegetal como animal, es altamente contaminante si se vierte por el desagüe o se tira " +
+                                                "a la basura. Un solo litro puede contaminar miles de litros de agua. Para reciclarlo correctamente, debe guardarse en una botella de plástico " +
+                                                "cerrada y depositarse en contenedores específicos para aceite usado o llevarse a un punto limpio, donde se transforma en biodiésel u otros productos.",
+                                        contenedorProducto = "Contenedor naranja"
+                                    ),
+                                    ProductoData(
+                                        tituloProducto = "Ropa y textiles",
+                                        descripcionProducto = "La ropa y los textiles incluyen prendas de vestir, zapatos, sábanas y toallas. Si están en buen estado, es preferible donarlos para su " +
+                                                "reutilización. Cuando ya no se pueden usar, deben depositarse en contenedores específicos de ropa usada, donde se clasifican para reutilizar " +
+                                                "las prendas o reciclar los tejidos, reduciendo el desperdicio textil y el impacto ambiental de la industria de la moda.",
+                                        contenedorProducto = "Contenedor de ropa"
+                                    ),
+                                    ProductoData(
+                                        tituloProducto = "Medicamentos caducados",
+                                        descripcionProducto = "Los medicamentos caducados o que ya no se utilizan no deben tirarse a la basura ni al desagüe, ya que pueden contaminar el agua y el suelo. " +
+                                                "Para deshacerse de ellos de forma segura, deben llevarse a las farmacias, donde se gestionarán correctamente tanto " +
+                                                "los medicamentos como sus envases, protegiendo el medio ambiente y la salud pública.",
+                                        contenedorProducto = "Contenedor de medicamentos"
+                                    ),
                                 )
                             )
                         }

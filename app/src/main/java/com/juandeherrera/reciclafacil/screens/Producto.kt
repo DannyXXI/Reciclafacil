@@ -14,22 +14,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.PhotoCamera
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
@@ -40,24 +28,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.room.Room
-import com.juandeherrera.reciclafacil.R
 import com.juandeherrera.reciclafacil.localdb.AppDB
 import com.juandeherrera.reciclafacil.localdb.Estructura
 import com.juandeherrera.reciclafacil.localdb.HistorialData
 import com.juandeherrera.reciclafacil.metodosAuxiliares.obtenerPainterProducto
-import com.juandeherrera.reciclafacil.navigation.AppScreens
-import java.util.Locale
-import java.util.Locale.getDefault
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -186,7 +168,7 @@ fun PantallaProducto(controladorNavegacion: NavController, idProducto: Int) {
                     text = "Reciclar en " + producto?.contenedorProducto?.lowercase(),  // texto
                     style = TextStyle(
                         fontFamily = FontFamily.SansSerif,  // fuente tipografica
-                        fontSize = 20.sp     // tamaño de la fuente del texto del botón
+                        fontSize = 16.sp     // tamaño de la fuente del texto del botón
                     )
                 )
             }

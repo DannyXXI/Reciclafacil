@@ -76,8 +76,7 @@ fun tarjetaProductoHistorial(producto: ProductoData?) {
 
     Card(
         modifier = Modifier.fillMaxWidth() // ocupa el ancho de la pantalla
-            .height(100.dp)         // altura
-            .padding(16.dp),  // padding arriba y en los laterales
+            .height(80.dp),       // altura
         colors = CardDefaults.cardColors(
             containerColor = Color.White  // color de fondo de la tarjeta
         ),
@@ -104,7 +103,7 @@ fun tarjetaProductoHistorial(producto: ProductoData?) {
                     color = Color.Black,  // color del texto
                     style = TextStyle(
                         fontFamily = FontFamily.SansSerif,  // fuente tipografica
-                        fontSize = 20.sp,  // tamaño de fuente del texto
+                        fontSize = 18.sp,  // tamaño de fuente del texto
                         fontWeight = FontWeight.Bold
                     )
                 )
@@ -116,7 +115,7 @@ fun tarjetaProductoHistorial(producto: ProductoData?) {
                     color = Color.Black,  // color del texto
                     style = TextStyle(
                         fontFamily = FontFamily.SansSerif,  // fuente tipografica
-                        fontSize = 16.sp  // tamaño de fuente del texto
+                        fontSize = 13.sp  // tamaño de fuente del texto
                     )
                 )
             }
