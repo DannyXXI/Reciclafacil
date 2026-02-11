@@ -82,6 +82,7 @@ fun PantallaInicio(controladorNavegacion: NavController) {
         bottomBar = {
             // BARRA DE NAVEGACION
             NavigationBar {
+                // Inicio
                 NavigationBarItem(
                     selected = true,
                     onClick = {
@@ -112,6 +113,8 @@ fun PantallaInicio(controladorNavegacion: NavController) {
                         unselectedTextColor = Color.Black      // color del texto no seleccionado
                     )
                 )
+
+                // Búsqueda
                 NavigationBarItem(
                     selected = false,
                     onClick = {
@@ -141,10 +144,12 @@ fun PantallaInicio(controladorNavegacion: NavController) {
                         unselectedTextColor = Color.Black      // color del texto no seleccionado
                     )
                 )
+
+                // Escáner
                 NavigationBarItem(
                     selected = false,
                     onClick = {
-                        Toast.makeText(context, "Función no disponible", Toast.LENGTH_SHORT).show() // notificacion de bloqueo de la funcion de camara
+                        controladorNavegacion.navigate(AppScreens.escaner.route) // se navega a la opcion de escaner
                     },
                     icon = {
                         Icon(
@@ -170,6 +175,8 @@ fun PantallaInicio(controladorNavegacion: NavController) {
                         unselectedTextColor = Color.Black      // color del texto no seleccionado
                     )
                 )
+
+                // Historial
                 NavigationBarItem(
                     selected = false,
                     onClick = {
@@ -199,6 +206,8 @@ fun PantallaInicio(controladorNavegacion: NavController) {
                         unselectedTextColor = Color.Black      // color del texto no seleccionado
                     )
                 )
+
+                // Perfil
                 NavigationBarItem(
                     selected = false,
                     onClick = {

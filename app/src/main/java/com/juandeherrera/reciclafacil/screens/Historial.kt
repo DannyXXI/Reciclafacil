@@ -57,16 +57,21 @@ import com.juandeherrera.reciclafacil.navigation.AppScreens
 @Composable
 fun PantallaHistorial(controladorNavegacion: NavController) {
 
-    val context = LocalContext.current // se obtiene el contexto actual (necesario para la bd local y mostrar mensajes Toasts)
+    val context =
+        LocalContext.current // se obtiene el contexto actual (necesario para la bd local y mostrar mensajes Toasts)
 
     // instancia a la base de datos local
     // se indica el contexto, nombre del archivo, permitiendo operaciones en el hilo principal
     // con allowMainThreadQueries() se hace que el manejo de la base de datos y la app corran en el mismo hilo (no es lo mas recomendable)
-    val db = Room.databaseBuilder(context, AppDB::class.java, Estructura.DB.NAME).allowMainThreadQueries().build()
+    val db = Room.databaseBuilder(context, AppDB::class.java, Estructura.DB.NAME)
+        .allowMainThreadQueries().build()
 
-    val usuario = db.sesionDao().obtenerUsuario()  // se obtiene los datos del usuario que tiene sesion activa
+    val usuario =
+        db.sesionDao().obtenerUsuario()  // se obtiene los datos del usuario que tiene sesion activa
 
-    val datos = remember {db.historialDao().obtenerHistorial(usuario.idUsuario).toMutableStateList()} // lista de registros del historial
+    val datos = remember {
+        db.historialDao().obtenerHistorial(usuario.idUsuario).toMutableStateList()
+    } // lista de registros del historial
 
     Scaffold(
         // BARRA SUPERIOR
@@ -153,7 +158,7 @@ fun PantallaHistorial(controladorNavegacion: NavController) {
                 NavigationBarItem(
                     selected = false,
                     onClick = {
-                        Toast.makeText(context, "Función no disponible", Toast.LENGTH_SHORT).show() // notificacion de bloqueo de la funcion de camara
+                        controladorNavegacion.navigate(AppScreens.escaner.route) // se navega a la opcion de escaner
                     },
                     icon = {
                         Icon(
@@ -240,17 +245,17 @@ fun PantallaHistorial(controladorNavegacion: NavController) {
                 )
             }
         }
-    ){
-        innerPadding ->
+    ) { innerPadding ->
 
         Column(
-            modifier = Modifier.fillMaxSize()                 // ocupa el espacio disponible
+            modifier = Modifier
+                .fillMaxSize()                 // ocupa el espacio disponible
                 .padding(innerPadding)         // usa el padding por defecto
                 .background(Color(0xFFE0F8D9)),       // color de fondo
             horizontalAlignment = Alignment.CenterHorizontally,   // centrado horizontal
-        ){
+        ) {
             // FILAS CON LOS PRODUCTOS RECICLADOS POR EL USUARIO
-            LazyColumn{
+            LazyColumn {
                 // se comprueba que haya productos en el historial
                 if (datos.isEmpty()) {
                     // lista de un solo item a mostrar
@@ -259,12 +264,11 @@ fun PantallaHistorial(controladorNavegacion: NavController) {
                             modifier = Modifier.fillMaxWidth(),              // ocupa el ancho de la pantalla
                             verticalAlignment = Alignment.CenterVertically,  // centrado vertical
                             horizontalArrangement = Arrangement.Center       // centrado horizontal
-                        ){
+                        ) {
                             tarjetaSinProductos() // se invoca la tarjeta
                         }
                     }
-                }
-                else {
+                } else {
                     // lista indexada que contiene los productos del historial
                     items(
                         items = datos,
@@ -277,13 +281,13 @@ fun PantallaHistorial(controladorNavegacion: NavController) {
                                 // si el usuario desliza la tarjeta de izquierda a derecha
                                 if (valor == SwipeToDismissBoxValue.StartToEnd) {
 
-                                    db.historialDao().eliminarRegistro(registro.idHistorial)  // eliminar registro de la base de datos
+                                    db.historialDao()
+                                        .eliminarRegistro(registro.idHistorial)  // eliminar registro de la base de datos
 
                                     datos.remove(registro) // se elimina el producto de la lista
 
                                     true // se confirma que la accion se realizo
-                                }
-                                else {
+                                } else {
                                     false // si desliza hacia otro lada, no se hace nada
                                 }
                             }
@@ -291,7 +295,10 @@ fun PantallaHistorial(controladorNavegacion: NavController) {
 
                         // box que hace de marco del elemento al aplicarle el padding y que el fondo rojo quede contenido
                         Box(
-                            modifier = Modifier.padding(vertical = 10.dp, horizontal = 16.dp) // padding en los laterales horizontales y verticales
+                            modifier = Modifier.padding(
+                                vertical = 10.dp,
+                                horizontal = 16.dp
+                            ) // padding en los laterales horizontales y verticales
                         ) {
                             SwipeToDismissBox(
                                 state = estadoDesplazamiento,
@@ -305,7 +312,10 @@ fun PantallaHistorial(controladorNavegacion: NavController) {
                                     Box(
                                         modifier = Modifier
                                             .fillMaxSize()  // ocupa el espacio disponible
-                                            .background(Color.Red, shape = CardDefaults.shape) // color de fondo con borde redondeado
+                                            .background(
+                                                Color.Red,
+                                                shape = CardDefaults.shape
+                                            ) // color de fondo con borde redondeado
                                             .padding(horizontal = 16.dp), // padding interno
                                         contentAlignment = Alignment.CenterStart // centrado al centro a la derecha
                                     ) {
@@ -316,10 +326,11 @@ fun PantallaHistorial(controladorNavegacion: NavController) {
                                         )
                                     }
                                 }
-                            ){
+                            ) {
                                 // contenido frontal (lo que ve el usuario y se mueve)
 
-                                val producto = db.productoDao().getProducto(registro.idProductoVisitado) // obtenemos el producto asociado al contenido del registro
+                                val producto = db.productoDao()
+                                    .getProducto(registro.idProductoVisitado) // obtenemos el producto asociado al contenido del registro
 
                                 tarjetaProductoHistorial(producto) // se invoca la tarjeta
                             }

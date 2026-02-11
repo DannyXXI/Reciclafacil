@@ -39,6 +39,13 @@ android {
 }
 
 dependencies {
+    // Dependencias del lector de código de barras y la cámara
+    implementation ("androidx.camera:camera-core:1.3.0")
+    implementation ("androidx.camera:camera-camera2:1.3.0")
+    implementation ("androidx.camera:camera-lifecycle:1.3.0")
+    implementation ("androidx.camera:camera-view:1.3.0")
+    implementation ("com.google.mlkit:barcode-scanning:17.2.0")
+
     implementation("androidx.compose.material3:material3:1.4.0") // dependencia de actualización de Material3
     implementation("androidx.compose.material3:material3-adaptive-navigation-suite:1.5.0-alpha11") // navegacion adaptativa segun el tamaño de pantalla
     implementation("androidx.compose.material3:material3-window-size-class:1.4.0") // herramientas para clasificar el tamaño de la pantalla
@@ -48,7 +55,8 @@ dependencies {
     implementation("com.composables:icons-lucide:1.1.0") // dependencia para la libreria de iconos Lucide
 
     // dependencias para usar la base de datos local
-    implementation("androidx.room:room-runtime:2.8.4") // dependencia principal para poder usar Room
+    implementation("androidx.room:room-runtime:2.8.4")
+    implementation(libs.androidx.camera.view) // dependencia principal para poder usar Room
     ksp("androidx.room:room-compiler:2.8.4")           // dependencia que permite usar el procesador de anotaciones de Room (KSP)
     implementation("androidx.room:room-ktx:2.8.4")     // dependencia que agrega extensiones de Kotlin para Room
     implementation("io.coil-kt:coil-compose:2.7.0")    // dependencia para usar imagenes desde Internet (AsyncImage)

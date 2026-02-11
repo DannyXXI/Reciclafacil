@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import androidx.room.Room
 import com.juandeherrera.reciclafacil.localdb.AppDB
 import com.juandeherrera.reciclafacil.localdb.Estructura
+import com.juandeherrera.reciclafacil.screens.BarcodeScannerScreen
 import com.juandeherrera.reciclafacil.screens.PantallaBusqueda
 import com.juandeherrera.reciclafacil.screens.PantallaCrearUsuario
 import com.juandeherrera.reciclafacil.screens.PantallaHistorial
@@ -79,6 +80,13 @@ fun AppNavigation() {
             if (idProducto != null) {
                 PantallaProducto(controladorNavegacion, idProducto)
             }
+        }
+
+        composable(route = AppScreens.escaner.route) {
+            BackHandler {
+                controladorNavegacion.popBackStack()
+            }
+            BarcodeScannerScreen(controladorNavegacion)
         }
     }
 }

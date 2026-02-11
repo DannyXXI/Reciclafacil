@@ -177,7 +177,7 @@ fun PantallaBusqueda(controladorNavegacion: NavController) {
                 NavigationBarItem(
                     selected = false,
                     onClick = {
-                        Toast.makeText(context, "Función no disponible", Toast.LENGTH_SHORT).show() // notificacion de bloqueo de la funcion de camara
+                        controladorNavegacion.navigate(AppScreens.escaner.route) // se navega a la opcion de escaner
                     },
                     icon = {
                         Icon(
